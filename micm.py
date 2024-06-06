@@ -22,21 +22,25 @@
 
 import scratchattach as scratch3
 import random
-# Dane logowania do Scratch oraz ID projektu
-username = 'kornivs'
-password = 'Bobo#2017'
-project_id = '1029673056'  # np. '123456789'
-session = scratch3.login("kornivs", "Bobo#2017")
+from dotenv import load_dotenv
+import os
 
+load_dotenv('venv/.env')
+
+username: str = os.getenv('SCRATCH_USERNAME')
+password: str = os.getenv('SCRATCH_PASSWORD')
+project_id: str = os.getenv('PROJECT_ID')
+
+session = scratch3.login(username, password)
 
 for i in range(0,100):
     random_number = random.randint(-150, 150)
     print(random_number)
-    conn = session.connect_cloud(project_id="1029673056")
+    conn = session.connect_cloud(project_id=project_id)
     if random_number < 0:
-        conn.set_var("positive_or_negative", 1)  
-        conn.set_var("left_y", random_number*-1) 
+        conn.set_var("positive_or_negative", 1)
+        conn.set_var("left_y", random_number*-1)
     else:
         conn.set_var("positive_or_negative", 0)
-        conn.set_var("left_y", random_number) 
+        conn.set_var("left_y", random_number)
 
